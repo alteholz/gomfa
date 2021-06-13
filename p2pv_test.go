@@ -16,7 +16,7 @@ func BenchmarkP2pv(b *testing.B) {
 	pv[1][1] = 3.1
 	pv[1][2] = 0.9
 
-	for i := 0; i < 100000000; i++ {
+	for i := 0; i < 1000000; i++ {
 		P2pv(&p, &pv)
 	}
 }

@@ -25,7 +25,7 @@ func BenchmarkPvmpv(b *testing.B) {
 	bv[1][1] = 2.0
 	bv[1][2] = 1.0
 
-	for i := 0; i < 100000000; i++ {
+	for i := 0; i < 1000000; i++ {
 		Pvmpv(&av, &bv, &apb)
 	}
 }

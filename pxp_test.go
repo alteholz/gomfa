@@ -17,7 +17,7 @@ func BenchmarkPxp(b *testing.B) {
 	bv[1] = 3.0
 	bv[2] = 4.0
 
-	for i := 0; i < 100000000; i++ {
+	for i := 0; i < 10000000; i++ {
 		Pxp(&av, &bv, &amb)
 	}
 }

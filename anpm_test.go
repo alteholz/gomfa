@@ -7,7 +7,7 @@ import (
 func BenchmarkAnpm(b *testing.B) {
 	var a float64 = -0.1
 
-	for i := 0; i < 100000000; i++ {
+	for i := 0; i < 1000000; i++ {
 		_ = Anpm(a)
 	}
 }

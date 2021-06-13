@@ -25,7 +25,7 @@ func BenchmarkRxp(b *testing.B) {
 	p[1] = 1.5
 	p[2] = 0.1
 
-	for i := 0; i < 10000000; i++ {
+	for i := 0; i < 1000000; i++ {
 		Rxp(&r, &p, &rp)
 	}
 }

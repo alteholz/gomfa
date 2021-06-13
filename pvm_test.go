@@ -15,7 +15,7 @@ func BenchmarkPvm(b *testing.B) {
 	pv[1][1] = -0.25
 	pv[1][2] = 1.1
 
-	for i := 0; i < 100000000; i++ {
+	for i := 0; i < 1000000; i++ {
 		_, _ = Pvm(&pv)
 	}
 }
@@ -55,7 +55,7 @@ func BenchmarkPvmORG(b *testing.B) {
 	pv[1][1] = -0.25
 	pv[1][2] = 1.1
 
-	for i := 0; i < 100000000; i++ {
+	for i := 0; i < 1000000; i++ {
 		PvmORG(&pv, &r, &s)
 	}
 }

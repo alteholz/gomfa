@@ -7,7 +7,7 @@ import (
 func BenchmarkS2c(b *testing.B) {
 	var c [3]float64
 
-	for i := 0; i < 100000000; i++ {
+	for i := 0; i < 1000000; i++ {
 		S2c(3.0123, -0.999, &c)
 	}
 }
