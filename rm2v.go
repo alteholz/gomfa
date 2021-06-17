@@ -4,132 +4,59 @@ import (
 	"math"
 )
 
-/*
-**  - - - - - - -
-**    gomfam . h
-**  - - - - - - -
-**
-**  Macros used by GoMFA library.
- */
+func Rm2v(r *[3][3]float64, w *[3]float64) {
+	/*
+	 **  - - - - -
+	 **   R m 2 v
+	 **  - - - - -
+	 **
+	 **  Express an r-matrix as an r-vector.
+	 **
+	 **  Given:
+	 **     r        *[3][3] float64    rotation matrix
+	 **
+	 **  Returned:
+	 **     w        *[3] float64       rotation vector (Note 1)
+	 **
+	 **  Notes:
+	 **
+	 **  1) A rotation matrix describes a rotation through some angle about
+	 **     some arbitrary axis called the Euler axis.  The "rotation vector"
+	 **     returned by this function has the same direction as the Euler axis,
+	 **     and its magnitude is the angle in radians.  (The magnitude and
+	 **     direction can be separated by means of the function Pn.)
+	 **
+	 **  2) If r is null, so is the result.  If r is not a rotation matrix
+	 **     the result is undefined;  r must be proper (i.e. have a positive
+	 **     determinant) and real orthogonal (inverse = transpose).
+	 **
+	 **  3) The reference frame rotates clockwise as seen looking along
+	 **     the rotation vector from the origin.
+	 **
+	 **  This revision:  2021 May 11
+	 */
+	var x, y, z, s2, c2, phi, f float64
 
-/* Pi */
-const DPI = (3.141592653589793238462643)
-
-/* 2Pi */
-const D2PI = (6.283185307179586476925287)
-
-/* Radians to degrees */
-const DR2D = (57.29577951308232087679815)
-
-/* Degrees to radians */
-const DD2R = (1.745329251994329576923691e-2)
-
-/* Radians to arcseconds */
-const DR2AS = (206264.8062470963551564734)
-
-/* Arcseconds to radians */
-const DAS2R = (4.848136811095359935899141e-6)
-
-/* Seconds of time to radians */
-const DS2R = (7.272205216643039903848712e-5)
-
-/* Arcseconds in a full circle */
-const TURNAS = (1296000.0)
-
-/* Milliarcseconds to radians */
-const DMAS2R = (DAS2R / 1e3)
-
-/* Length of tropical year B1900 (days) */
-const DTY = (365.242198781)
-
-/* Seconds per day. */
-const DAYSEC = (86400.0)
-
-/* Days per Julian year */
-const DJY = (365.25)
-
-/* Days per Julian century */
-const DJC = (36525.0)
-
-/* Days per Julian millennium */
-const DJM = (365250.0)
-
-/* Reference epoch (J2000.0), Julian Date */
-const DJ00 = (2451545.0)
-
-/* Julian Date of Modified Julian Date zero */
-const DJM0 = (2400000.5)
-
-/* Reference epoch (J2000.0), Modified Julian Date */
-const DJM00 = (51544.5)
-
-/* 1977 Jan 1.0 as MJD */
-const DJM77 = (43144.0)
-
-/* TT minus TAI (s) */
-const TTMTAI = (32.184)
-
-/* Astronomical unit (m, IAU 2012) */
-const DAU = (149597870.7e3)
-
-/* Speed of light (m/s) */
-const CMPS = 299792458.0
-
-/* Light time for 1 au (s) */
-const AULT = (DAU / CMPS)
-
-/* Speed of light (au per day) */
-const DC = (DAYSEC / AULT)
-
-/* L_G = 1 - d(TT)/d(TCG) */
-const ELG = (6.969290134e-10)
-
-/* L_B = 1 - d(TDB)/d(TCB), and TDB (s) at TAI 1977/1/1.0 */
-const ELB = (1.550519768e-8)
-const TDB0 = (-6.55e-5)
-
-/* Schwarzschild radius of the Sun (au) */
-/* = 2 * 1.32712440041e20 / (2.99792458e8)^2 / 1.49597870700e11 */
-const SRS = 1.97412574336e-8
-
-//XXX /* DINT(A) - truncate to nearest whole number towards zero (double) */
-//XXX const DINT(A) = ((A)<0.0?ceil(A):floor(A))
-//XXX
-//XXX /* DNINT(A) - round to nearest whole number (double) */
-//XXX const DNINT(A) = (fabs(A)<0.5?0.0\
-//XXX                                 :((A)<0.0?ceil((A)-0.5):floor((A)+0.5)))
-//XXX
-/* DSIGN(A,B) - magnitude of A with sign of B (double) */
-func DSIGN(a float64, b float64) float64 {
-	if b < 0 {
-		return -math.Abs(a)
+	x = r[1][2] - r[2][1]
+	y = r[2][0] - r[0][2]
+	z = r[0][1] - r[1][0]
+	s2 = math.Sqrt(x*x + y*y + z*z)
+	if s2 > 0 {
+		c2 = r[0][0] + r[1][1] + r[2][2] - 1.0
+		phi = math.Atan2(s2, c2)
+		f = phi / s2
+		w[0] = x * f
+		w[1] = y * f
+		w[2] = z * f
 	} else {
-		return math.Abs(a)
+		w[0] = 0.0
+		w[1] = 0.0
+		w[2] = 0.0
 	}
-}
 
-// difference to MAX?
-func GMAX(a float64, b float64) float64 {
-	if a > b {
-		return a
-	} else {
-		return b
-	}
-}
+	/* Finished. */
 
-// difference to MAX?
-func GMIN(a float64, b float64) float64 {
-	if a < b {
-		return a
-	} else {
-		return b
-	}
 }
-
-/* Reference ellipsoids */
-const WGS84 = 1
-const GRS80 = 2
-const WGS72 = 3
 
 /*----------------------------------------------------------------------
 **
